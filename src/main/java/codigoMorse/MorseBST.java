@@ -3,15 +3,50 @@ package codigoMorse;
 import javafx.scene.canvas.Canvas;
 
 public class MorseBST {
+    private Node root;
+
+    public MorseBST() {
+        root = new Node('*');
+    }
 
     public boolean isEmpty() {
-
-        return true;
+        return root == null;
     }
 
     public void insert(char letter, String code) {
+        Node current = root;
 
-        System.out.println("Inserção ainda não implementada.");
+        for (int i = 0; i < code.length(); i++) {
+            char character = code.charAt(i);
+
+            if (character == '.') {
+                if (current.left == null) {
+                    current.left = new Node('*');
+                }
+                current = current.left;
+            } else if (character == '-') {
+                if (current.right == null) {
+                    current.right = new Node('*');
+                }
+                current = current.right;
+            }
+        }
+
+        current.letter = letter;
+    }
+
+    private String findCode(Node node, char letter, String code) {
+        if (node == null) return null;
+        if (node.letter == letter) return code;
+
+        String left = findCode(node.left, letter, code + ".");
+        if (left != null) return left;
+
+        return findCode(node.right, letter, code + "-");
+    }
+
+    public String findCodePublic(char letter) {
+        return findCode(root, letter, "");
     }
 
     public String encodeWord(String word) {
