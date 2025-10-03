@@ -1,6 +1,8 @@
 package codigoMorse;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class MorseBST {
     private Node root;
@@ -114,12 +116,45 @@ public class MorseBST {
     public String decodeWord(String morse){
         return decodeWord(morse, this.root);
     }
+
+    public int getHeight() {
+        return getHeight(root);
+    }
+
+    private int getHeight(Node node) {
+        if (node == null) return 0;
+        return 1 + Math.max(getHeight(node.left), getHeight(node.right));
+    }
+
+
     public void drawTree(Canvas canvas) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setStroke(Color.BLACK);
+        gc.setLineWidth(2);
 
-        System.out.println("Desenho da árvore ainda não implementado.");
-    }
-    public Node getRoot() {
-        return root;
+        drawNode(gc, root, canvas.getWidth() / 2, 40, canvas.getWidth() / 4);
     }
 
+    private void drawNode(GraphicsContext gc, Node node, double x, double y, double xOffset) {
+        if (node == null) return;
+
+        // círculo
+        gc.strokeOval(x - 15, y - 15, 30, 30);
+        // letra
+        gc.strokeText(String.valueOf(node.letter == ' ' ? ' ' : node.letter), x - 5, y + 5);
+
+        if (node.left != null) {
+            double newX = x - xOffset;
+            double newY = y + 80;
+            gc.strokeLine(x, y + 15, newX, newY - 15);
+            drawNode(gc, node.left, newX, newY, xOffset / 2);
+        }
+        if (node.right != null) {
+            double newX = x + xOffset;
+            double newY = y + 80;
+            gc.strokeLine(x, y + 15, newX, newY - 15);
+            drawNode(gc, node.right, newX, newY, xOffset / 2);
+        }
+    }
 }
