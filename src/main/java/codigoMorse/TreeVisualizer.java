@@ -35,32 +35,6 @@ public class TreeVisualizer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        bst.insert('E', ".");
-        bst.insert('T', "-");
-        bst.insert('I', "..");
-        bst.insert('A', ".-");
-        bst.insert('N', "-.");
-        bst.insert('M', "--");
-        bst.insert('S', "...");
-        bst.insert('U', "..-");
-        bst.insert('R', ".-.");
-        bst.insert('W', ".--");
-        bst.insert('D', "-..");
-        bst.insert('K', "-.-");
-        bst.insert('G', "--.");
-        bst.insert('O', "---");
-        bst.insert('H', "....");
-        bst.insert('V', "...-");
-        bst.insert('F', "..-.");
-        bst.insert('L', ".-..");
-        bst.insert('P', ".--.");
-        bst.insert('J', ".---");
-        bst.insert('B', "-...");
-        bst.insert('X', "-..-");
-        bst.insert('C', "-.-.");
-        bst.insert('Y', "-.--");
-        bst.insert('Z', "--..");
-        bst.insert('Q', "--.-");
 
         primaryStage.setTitle("Menu - Árvore Binária Código Morse");
 
@@ -132,12 +106,17 @@ public class TreeVisualizer extends Application {
         Button confirmar = new Button("Codificar");
         aplicarHover(confirmar);
         confirmar.setOnAction(e -> {
+            String palavra = palavraField.getText().toUpperCase().trim();
+            if (palavra.isEmpty()){
+                mostrarErro("Digite ao menos uma palavra para codificar.");
+                return;
+            }
             if (bst.isEmpty()) {
                 mostrarErro("Árvore vazia. Insira letras primeiro.");
                 return;
             }
             try {
-                String codificado = bst.encodeWord(palavraField.getText().toUpperCase());
+                String codificado = bst.encodeWord(palavra);
                 mostrarInfo("Resultado", "Morse: " + codificado);
                 janela.close();
             }catch (IllegalArgumentException er){

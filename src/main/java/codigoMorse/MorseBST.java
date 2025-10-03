@@ -50,23 +50,24 @@ public class MorseBST {
     }
 
     public String encodeWord(String word) {
-        StringBuilder strb = new StringBuilder();
-        for (char c : word.toUpperCase().toCharArray()){
-            if (c == ' '){
-                strb.append("/ ");
-            } else {
-                String code = findCodePublic(c);
-                if (code == null || code.isEmpty()){
-                    throw new IllegalArgumentException("A letra '" + c + "' ainda não foi adicionada na árvore, " +
-                            "tente outra palavra ou insira a letra faltante");
-                }
-                strb.append(code).append(" ");
-            }
-
+        word = word.toUpperCase().trim();
+        if (word.isEmpty()){
+            return "";
         }
-
-    return strb.toString().trim();
-
+        char c = word.charAt(0);
+        String code;
+        if (c == ' '){
+            code = "/ ";
+        }else{
+            code = findCodePublic(c);
+            if (code == null){
+                throw new IllegalArgumentException( "A letra '" + c + "' não está na árvore, " +
+                        "tente uma palavra diferente ou insira a letra " +
+                        "e tente novamente.");
+            }
+            code += " ";
+        }
+        return code + encodeWord(word.substring(1));
     }
 
     public String decodeWord(String morse) {
