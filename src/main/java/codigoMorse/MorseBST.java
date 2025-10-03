@@ -50,8 +50,23 @@ public class MorseBST {
     }
 
     public String encodeWord(String word) {
+        StringBuilder strb = new StringBuilder();
+        for (char c : word.toUpperCase().toCharArray()){
+            if (c == ' '){
+                strb.append("/ ");
+            } else {
+                String code = findCodePublic(c);
+                if (code == null || code.isEmpty()){
+                    throw new IllegalArgumentException("A letra '" + c + "' ainda não foi adicionada na árvore, " +
+                            "tente outra palavra ou insira a letra faltante");
+                }
+                strb.append(code).append(" ");
+            }
 
-        return "[Codificação não implementada]";
+        }
+
+    return strb.toString().trim();
+
     }
 
     public String decodeWord(String morse) {
@@ -63,4 +78,8 @@ public class MorseBST {
 
         System.out.println("Desenho da árvore ainda não implementado.");
     }
+    public Node getRoot() {
+        return root;
+    }
+
 }

@@ -140,7 +140,9 @@ public class TreeVisualizer extends Application {
                 String codificado = bst.encodeWord(palavraField.getText().toUpperCase());
                 mostrarInfo("Resultado", "Morse: " + codificado);
                 janela.close();
-            } catch (Exception ex) {
+            }catch (IllegalArgumentException er){
+                mostrarErro(er.getMessage());
+            }catch (Exception ex) {
                 mostrarErro(ex.getMessage());
             }
         });

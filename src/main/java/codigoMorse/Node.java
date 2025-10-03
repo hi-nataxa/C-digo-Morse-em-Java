@@ -1,7 +1,5 @@
 package codigoMorse;
 
-
-
 public class Node {
     char letter;
     Node left;
