@@ -77,13 +77,24 @@ public class TreeVisualizer extends Application {
         Button confirmar = new Button("Inserir");
         aplicarHover(confirmar);
         confirmar.setOnAction(e -> {
-            if (letraField.getText().length() == 1 && !morseField.getText().isEmpty()) {
-                char letra = Character.toUpperCase(letraField.getText().charAt(0));
-                bst.insertPublic(letra, morseField.getText());
-                mostrarInfo("Letra inserida", "Letra " + letra + " adicionada com código " + morseField.getText());
-                janela.close();
+            String letraInput = letraField.getText().trim();
+            String morseInput = morseField.getText().trim();
+
+            if (letraInput.length() == 1 && Character.isLetter(letraInput.charAt(0))) {
+                if (!morseInput.isEmpty() && morseInput.matches("[.-]+")) {
+                    char letra = Character.toUpperCase(letraInput.charAt(0));
+                    if (bst.findCodePublic(letra) == null) {
+                        bst.insertPublic(letra, morseInput);
+                        mostrarInfo("Letra inserida", "Letra " + letra + " adicionada com código " + morseInput);
+                        janela.close();
+                    } else {
+                        mostrarErro("Essa letra já foi adicionada.");
+                    }
+                } else {
+                    mostrarErro("Código Morse inválido. Use apenas '.' e '-'.");
+                }
             } else {
-                mostrarErro("Entrada inválida.");
+                mostrarErro("Digite apenas uma letra.");
             }
         });
 
