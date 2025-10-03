@@ -1,6 +1,5 @@
 package codigoMorse;
 
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -80,7 +79,7 @@ public class TreeVisualizer extends Application {
         confirmar.setOnAction(e -> {
             if (letraField.getText().length() == 1 && !morseField.getText().isEmpty()) {
                 char letra = Character.toUpperCase(letraField.getText().charAt(0));
-                bst.insert(letra, morseField.getText());
+                bst.insertPublic(letra, morseField.getText());
                 mostrarInfo("Letra inserida", "Letra " + letra + " adicionada com código " + morseField.getText());
                 janela.close();
             } else {
@@ -115,7 +114,9 @@ public class TreeVisualizer extends Application {
                 mostrarErro("Árvore vazia. Insira letras primeiro.");
                 return;
             }
+
             try {
+                bst.checkString(palavra);
                 String codificado = bst.encodeWord(palavra);
                 mostrarInfo("Resultado", "Morse: " + codificado);
                 janela.close();
@@ -138,18 +139,23 @@ public class TreeVisualizer extends Application {
         Stage janela = new Stage();
         janela.setTitle("Decodificar Código Morse");
 
-        TextField codigoField = new TextField();
+        TextField codeField = new TextField();
 
 
         Button confirmar = new Button("Decodificar");
         aplicarHover(confirmar);
         confirmar.setOnAction(e -> {
+            String codeMorse = codeField.getText().toUpperCase().trim();
+            if (codeMorse.isEmpty()){
+                mostrarErro("Digite ao menos uma palavra para decodificar.");
+                return;
+            }
             if (bst.isEmpty()) {
                 mostrarErro("Árvore vazia. Insira letras primeiro.");
                 return;
             }
             try {
-                String decodificado = bst.decodeWord(codigoField.getText());
+                String decodificado = bst.decodeWord(codeMorse);
                 mostrarInfo("Resultado", "Palavra: " + decodificado);
                 janela.close();
             } catch (Exception ex) {
@@ -157,7 +163,7 @@ public class TreeVisualizer extends Application {
             }
         });
 
-        VBox layout = new VBox(10, codigoField, confirmar);
+        VBox layout = new VBox(10, codeField, confirmar);
         layout.setPadding(new Insets(10));
         layout.setAlignment(Pos.CENTER);
         janela.setScene(new Scene(layout, 350, 150));
