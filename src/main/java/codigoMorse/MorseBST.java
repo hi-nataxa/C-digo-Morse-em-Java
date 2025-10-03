@@ -12,7 +12,7 @@ public class MorseBST {
     }
 
     public boolean isEmpty() {
-        return root == null;
+        return root.letter == '*' && root.left == null && root.right == null;
     }
 
     public void insertPublic(char letter, String morseCode) {
