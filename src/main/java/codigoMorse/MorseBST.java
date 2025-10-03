@@ -15,26 +15,26 @@ public class MorseBST {
         return root == null;
     }
 
-    public void insert(char letter, String code) {
-        Node current = root;
+    public void insertPublic(char letter, String morseCode) {
+        root = insert(root, letter, morseCode, 0);
+    }
 
-        for (int i = 0; i < code.length(); i++) {
-            char character = code.charAt(i);
-
-            if (character == '.') {
-                if (current.left == null) {
-                    current.left = new Node('*');
-                }
-                current = current.left;
-            } else if (character == '-') {
-                if (current.right == null) {
-                    current.right = new Node('*');
-                }
-                current = current.right;
-            }
+    private Node insert(Node node, char letter, String code, int index) {
+        if (index == code.length()) {
+            return new Node(letter);
         }
 
-        current.letter = letter;
+        if (node == null) {
+            node = new Node(' ');
+        }
+
+        char symbol = code.charAt(index);
+        if (symbol == '.') {
+            node.left = insert(node.left, letter, code, index + 1);
+        } else if (symbol == '-') {
+            node.right = insert(node.right, letter, code, index + 1);
+        }
+        return node;
     }
 
     private String findCode(Node node, char letter, String code) {

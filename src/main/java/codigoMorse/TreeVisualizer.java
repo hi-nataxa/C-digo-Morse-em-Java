@@ -1,6 +1,5 @@
 package codigoMorse;
 
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -80,7 +79,7 @@ public class TreeVisualizer extends Application {
         confirmar.setOnAction(e -> {
             if (letraField.getText().length() == 1 && !morseField.getText().isEmpty()) {
                 char letra = Character.toUpperCase(letraField.getText().charAt(0));
-                bst.insert(letra, morseField.getText());
+                bst.insertPublic(letra, morseField.getText());
                 mostrarInfo("Letra inserida", "Letra " + letra + " adicionada com código " + morseField.getText());
                 janela.close();
             } else {
